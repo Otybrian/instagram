@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 # Create your models here.
@@ -19,6 +20,15 @@ class Profile(models.Model):
 
     def delete_profile(self):
         self.delete()
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            Profile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
     @classmethod
     def search_profile(cls, name):
@@ -39,6 +49,10 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return f"/post/{self.id}"
+
+    @property
+    def get_all_comments(self):
+        return self.comments.all()
 
     def save_image(self):
         self.save()
