@@ -10,5 +10,7 @@ from django.http  import Http404
 
 
 # Create your views here.
+@login_required(login_url='/accounts/login/')
 def home(request):
     return render(request, 'home.html')
+
