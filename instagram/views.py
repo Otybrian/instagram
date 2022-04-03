@@ -13,3 +13,4 @@ from django.http  import Http404
 @login_required(login_url='/accounts/login/')
 def home(request):
     return render(request, 'home.html')
+
