@@ -20,17 +20,20 @@
       border: solid whitesmoke 2px;
       margin-top: 30px;
     }
+    .container-fluid{
+      background-color: rgb(238, 234, 234);
+    }
   </style>
 </head>
 
 <body>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
       <!-- Empty div -->
-      <div class="col-md-4">
-
-      </div>
       <div class="col-md-4" style='margin-left:150px;'>
+        <img src='{% static "images/insta.gif" %}' height=800px width=400px>
+      </div>
+      <div class="col-md-4" style='margin-left:100px;'>
         <div class='log'>
           {% if form.errors %}
           <p> Password or Username is incorrect </p>
