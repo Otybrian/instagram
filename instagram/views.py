@@ -13,8 +13,3 @@ from django.http  import Http404
 @login_required(login_url='/accounts/login/')
 def home(request):
     return render(request, 'home.html')
-
-@login_required(login_url='/accounts/login/')
-def index(request):
-  photo = Image.objects.all().order_by('-id')
-
