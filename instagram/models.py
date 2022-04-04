@@ -1,7 +1,7 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
-import instaclone
+
 
 # Create your models here.
 class Image(models.Model):
@@ -45,6 +45,20 @@ class Profile(models.Model):
     def delete_profile(self):
         self.delete()
 
+
+class Follow(models.Model):
+    follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='following')
+    followed = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
+
+    def __str__(self):
+        return f'{self.follower} Follow' 
+
+
+class Likes(models.Model):
+    user = models.ForeignKey(User,on_delete = models.CASCADE,null=True)
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
+
+
 class Comment(models.Model):
     comment = models.TextField()
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
@@ -56,14 +70,3 @@ class Comment(models.Model):
     def delete_comment(self):
         self.delete()
 
-class Likes(models.Model):
-    user = models.ForeignKey(User,on_delete = models.CASCADE,null=True)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
-
-
-class Follow(models.Model):
-    follower = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='following')
-    followed = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='followers')
-
-    def __str__(self):
-        return f'{self.follower} Follow' 

@@ -12,7 +12,7 @@ class NewImageForm(forms.ModelForm):
             'id':'form'
         }
 
-class ProfileForm(forms.ModelForm):
+class UserProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['bio','profile_pic']

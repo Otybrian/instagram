@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from .models import Image,Profile,Likes,Comment
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from .forms import NewImageForm, CommentForm, ProfileForm
+from .forms import NewImageForm, CommentForm, UserProfileForm
 from django.http  import Http404
 
 
@@ -16,18 +16,18 @@ def home(request):
     return render(request, 'home.html',{'photo':photo})
 
 @login_required(login_url='/accounts/login/')
-def profile(request):
+def userProfile(request):
     current_user = request.user
     image = Image.objects.filter(user_id=current_user.id)
     profile = Profile.objects.filter(user_id=current_user.id).first()
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=request.user.profile)
+        form = UserProfileForm(request.POST, instance=request.user.profile)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect(request.path_info)
 
     else:
-        form = ProfileForm()
+        form = UserProfileForm()
 
     return render(request, 'profile.html', {"image": image, "profile": profile,"form":form})
 
@@ -46,7 +46,7 @@ def search_results(request):
 
 
 @login_required(login_url='/accounts/login/')
-def new_image(request):
+def newImage(request):
     current_user = request.user
     if request.method == 'POST':
         form = NewImageForm(request.POST, request.FILES)
@@ -68,7 +68,24 @@ def image(request,image_id):
     return render(request,"image.html", {"image":image})
 
 @login_required(login_url='/accounts/login/')
-def like_image(request):
+def postComment(request):
+    current_user=request.user
+    comment=Comment.objects.filter()
+    image=Image.objects.filter(image=id).all()
+    
+    if request.method=='POST':
+        form=CommentForm(request.POST)
+        if form.is_valid():
+            comment=form.save()
+            image.user = current_user
+            comment.save_comment()
+        return HttpResponseRedirect(request.path_info)
+    else:
+        form=CommentForm()
+    return render(request,'comments.html',{"form":form,"comments":comment,"image":image})
+
+@login_required(login_url='/accounts/login/')
+def likeImage(request):
     user = request.user
     if request.method == 'POST':
         image_id = request.POST.get('image_id')
@@ -87,20 +104,3 @@ def like_image(request):
 
         liked.save()       
     return redirect('home')
-
-@login_required(login_url='/accounts/login/')
-def comment(request):
-    current_user=request.user
-    comment=Comment.objects.filter()
-    image=Image.objects.filter(image=id).all()
-    
-    if request.method=='POST':
-        form=CommentForm(request.POST)
-        if form.is_valid():
-            comment=form.save()
-            image.user = current_user
-            comment.save_comment()
-        return HttpResponseRedirect(request.path_info)
-    else:
-        form=CommentForm()
-    return render(request,'comments.html',{"form":form,"comments":comment,"image":image})
