@@ -52,10 +52,10 @@ def addProfile(request):
             description=data['description'],
             image=image
         )
-        return redirect('gallery')
+        return redirect('profile')
 
     context= {'categories':categories}
-    return render(request,'add.html',context)
+    return render(request,'profile.html',context)
 
 def search_results(request):
 
@@ -90,6 +90,7 @@ def image(request,image_id):
         raise Http404()
     return render(request,"image.html", {"image":image})
 
+    
 @login_required(login_url='/accounts/login/')
 def postComment(request):
     current_user=request.user

@@ -15,8 +15,8 @@
           <i class="spinner "></i>
       </form>
       <span class="pull-right">
-          <img src='{% static "images/home.png"%}' height='30px'>
-          <img src='{% static "images/send.png"%}' height='40px'>
+         <a href='{% url "homePage" %}'> <img src='{% static "images/home.png"%}' height='30px'></a>
+         <a href='{% url "profile" %}'><img src='{% static "images/send.png"%}' height='40px'></a>
           <img src='{% static "images/post.png"%}' height='50px'>
           <img src='{% static "images/fav.png"%}' height='70px'>
           <img src='{% static "images/like.png"%}' height='30px'>
