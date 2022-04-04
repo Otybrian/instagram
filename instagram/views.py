@@ -31,6 +31,32 @@ def userProfile(request):
 
     return render(request, 'profile.html', {"image": image, "profile": profile,"form":form})
 
+@login_required(login_url='/accounts/login/')
+def addProfile(request):
+    categories= Profile.objects.all()
+
+    if request.method == 'POST':
+        data=request.POST
+        image=request.FILES.get('image')
+
+        if data['category']!='none':
+            category=Profile.objects.get(id=data['category'])
+
+        elif data['category_new']!='':
+            category, created=Profile.objects.get_or_create(name=data['category_new'])
+        else:
+            category=None
+
+        profile_pic = Profile.objects.create(
+            category=category,
+            description=data['description'],
+            image=image
+        )
+        return redirect('gallery')
+
+    context= {'categories':categories}
+    return render(request,'add.html',context)
+
 def search_results(request):
 
     if 'image' in request.GET and request.GET["image"]:
@@ -49,12 +75,12 @@ def search_results(request):
 def newImage(request):
     current_user = request.user
     if request.method == 'POST':
-        form = NewImageForm(request.POST, request.FILES)
+        form = NewImageForm(request.POST or None)
         if form.is_valid():
             image = form.save(commit=False)
             image.user = current_user
             image.save()
-        return redirect('home')
+        return redirect('homePage')
 
     else:
         form = NewImageForm()

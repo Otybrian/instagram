@@ -19,9 +19,9 @@ import cloudinary.api
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 cloudinary.config( 
-  cloud_name = 'instagram',
-  api_key = '874837483274837',
-  api_secret = 'a676b67565c6767a6767d6767f676fe1' ,
+  cloud_name = "insta-proj-django", 
+  api_key = "932143523858223", 
+  api_secret = "2KdKkJ2VspOn62tQblaiBE0ZEl8" 
 )
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -85,8 +85,10 @@ WSGI_APPLICATION = 'instaclone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'instaclone',
+        'USER': 'moringa',
+        'PASSWORD':'user',
     }
 }
 
@@ -120,8 +122,6 @@ TIME_ZONE = 'Africa/Nairobi'
 USE_I18N = True
 
 USE_L10N = True
-
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
