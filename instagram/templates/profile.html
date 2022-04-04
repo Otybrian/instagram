@@ -4,7 +4,7 @@
 {% block content %}
 {{block.super}}
 <style>
-    .profile{
+    .profile {
         margin-top: 150px;
     }
 </style>
@@ -14,10 +14,10 @@
             <div class="col-md-3">
                 <div class="card">
                     {% if profile.profile_pic %}
-                    <img src="{{profile.profile_pic.url}}" alt="" class="card-img-top profile"  width="200" height="150">
+                    <img src="{{profile.profile_pic.url}}" alt="" class="card-img-top profile" width="200" height="150">
                     {%else%}
-                    <img src='{% static "images/default.png"%}' alt="Avatar" style="width:200px" 
-                    class="card-img-top img-responsive" alt="Profile picture">
+                    <img src='{% static "images/default.png"%}' alt="Avatar" style="width:200px"
+                        class="card-img-top img-responsive" alt="Profile picture">
                     {% endif %}
                     <div class="card-body text-center">
                         <p><em>Username: </em>{{ user.username }}</p>
@@ -30,26 +30,26 @@
                         </p>
                         <h6>Joined on: {{ user.date_joined|date }}</h6>
                     </div>
-                      
+
                 </div>
             </div>
             <div class="col-md-4">
-            
-                        <form action="" method="post" enctype="multipart/form-data" class="m-4">
-                            {% csrf_token%}
-                            {% bootstrap_form form %}
-                            <button type="submit" class="btn btn-info btn-sm login"> Update Profile</button>
-                        </form>
-                    
+
+                <form action="" method="post" enctype="multipart/form-data" class="m-4">
+                    {% csrf_token%}
+                    {% bootstrap_form form %}
+                    <button type="submit" class="btn btn-info btn-sm login"> Update Profile</button>
+                </form>
+
             </div>
         </div>
         <h3 class="text-center">My posts</h3>
         {% for image in image %}
         <div class="col-md-4">
-            
-                <div class="card mb-4">
-                    <img src="{{ image.image.url }}" class="img-responsive" alt="Image">
-                </div>
+
+            <div class="card mb-4">
+                <img src="{{ image.image.url }}" class="img-responsive" alt="Image">
+            </div>
         </div>
         {% empty %}
         <div class="col-md-4"></div>
@@ -59,6 +59,10 @@
             </div>
         </div>
         {% endfor %}
+    </div>
+    <div class="post-details mt-3 mb-3">
+        <span class="mr-5"> <strong>{{ user_prof.profile.followers.count }}</strong> followers</span>
+        <span class="mr-5"> <strong>{{ user_prof.profile.following.count }}</strong> following</span>
     </div>
 </section>
 {% endblock %}

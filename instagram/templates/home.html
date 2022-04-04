@@ -1,59 +1,96 @@
-{%extends 'base.html'%}
-
+{% extends 'base.html' %}
+{% load static %}
 {% block content %}
 {{block.super}}
+<style>
+  .modal img {
+    height: 300px;
+    width: 400px;
+  }
+
+  .card {
+    width: 600px;
+    margin-top: 84px;
+    margin-left: 100px;
+  }
+
+  #top {
+    height: 160px;
+  }
+  body{
+    background-color: rgba(var(--b3f,250,250,250),1);
+  }
+</style>
+<body>
 <div class="container text-center">
   <div class="row ">
     {% for pic in photo %}
-        <div class = "col-md-4">
-          {% if profile %}
-          <img src="pic.user.profile.profile_pic.url}}" alt="" class="card-img-top profile">
-          {%else%}
-          <img src="pic.image.url" alt="Avatar"
-           style='margin-left: -35%;'alt="Profile picture" height="50" width="50">
-          {% endif %}
-          <h5 style="margin-left: -50%;">{{pic.user}}</h5>
-          <img src="{{pic.image.url}}" alt="Image" class="img-responsive" data-toggle ="modal" data-target="#showPicModal{{pic.id}}">
-        </div>
-    
-        <div class="modal fade" id="showPicModal{{pic.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">{{pic.name}}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+    <div class="col-md-8">
+      <div class='card'>
+        {% if profile %}
+        <img src="{{profile.profile_pic.url}}" alt="" class="card-img-top profile" style='padding: 30px;'>
+        {% else %}
+        <img src='{% static "images/default.png" %}' alt="Avatar"
+          style='padding: 5px; margin-top: 5px; margin-left: 100px;' alt="Profile picture" height="50" width="50">
+        {% endif %}
+      </div>
+      <div class='card' style='margin-top: -3px;'>
+        <img src="{{pic.image.url}}" height='500px;' width='600px;' alt="Image" class="img-responsive"
+          data-toggle="modal" data-target="#showPicModal{{pic.id}}">
+      </div>
+    </div>
+    <div class="modal fade" id="showPicModal{{pic.id}}" tabindex="-1" role="dialog"
+      aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{pic.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img src="{{pic.image.url}}" class="img-responsive" alt="{{pic.name}}">
+            <p><strong>Caption: </strong>{{pic.caption}}</p>
+            <div class='row'>
+            <div class="col-md-4">
+              <p><strong>On :</strong>{{pic.pub_date}}</p>
+              <form action="{% url 'like-image' %}" method='POST'>
+                {% csrf_token %}
+                <input type="hidden" name="image_id" value="{{pic.id}}">
+                <a href="{% url 'like-image' %}"><img src='{% static "images/like.png" %}' style='height:15px; width: 15px;'></a>
+
+              </form>
               </div>
-              <div class="modal-body">
-                <img src="{{pic.image.url}}" class = "img-responsive"alt="{{pic.name}}">
-                <p><strong>Caption: </strong>{{pic.caption}}</p>
-                <div class="col-md-4">
-                  <p><strong>Posted on :</strong>{{pic.pub_date}}</p>
-                  <form action = "{% url 'like-image' %}"   method='POST'>
-                    {% csrf_token %}
-                    <input type="hidden" name="image_id" value="{{pic.id}}">
-                    <button class="btn btn-success" type="submit">like</button>
-                    
-                  </form>
-                  <strong>{{pic.like.all.count}} like(s)</strong>
-             
-                  <span>
-                      <a class="ml-5" href="{% url 'comment' %}"><span>Comments</span>
-                          
-                      </a>
-                  </span>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <p>Posted by {{pic.user}}</p>
-              </div>
+              <div class="col-md-4">
+              <strong>{{pic.like.all.count}} like(s)</strong>
+
+              
+                <a class="ml-5" href="{% url 'comment' %}">View comments
+                </a>
+              
+            </div>
             </div>
           </div>
+          <div class="modal-footer">
+            <p>Posted by {{pic.user}}</p>
+          </div>
         </div>
-        
-
+      </div>
+    </div>
     {% endfor %}
+    <div class="col-md-4" style="margin-top: -1100px;">
+      {% for pic in photo %}
+      {% if profile %}
+<img src="{{profile.profile_pic.url}}" alt="" class="card-img-top profile" style='padding: 30px;'>
+      {% else %}
+      <img src='{% static "images/default.png" %}' alt="Avatar"
+      style='padding: 5px; margin-top: 5px; margin-left: 100px;' alt="Profile picture" height="50" width="50">
+      {% endif %}
+      <h5>{{pic.user}}</h5>
+      {% endfor %}
+    </div>
+  </div>
 </div>
-
-{% endblock %}
+</body>
+  {% endblock %}

@@ -1,6 +1,6 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render,redirect
-from .models import Image,Profile,Likes,Comment
+from .models import Image,Profile,Likes,Comment, Follow
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from .forms import NewImageForm, CommentForm, UserProfileForm
@@ -73,13 +73,10 @@ def search_results(request):
 
 @login_required(login_url='/accounts/login/')
 def newImage(request):
-    current_user = request.user
     if request.method == 'POST':
-        form = NewImageForm(request.POST or None)
+        form = NewImageForm(request.POST, request.FILES)
         if form.is_valid():
-            image = form.save(commit=False)
-            image.user = current_user
-            image.save()
+            form.save()
         return redirect('homePage')
 
     else:
@@ -129,4 +126,19 @@ def likeImage(request):
                liked.value = 'Like'
 
         liked.save()       
-    return redirect('home')
+    return redirect('homePage')
+
+def unfollow(request, to_unfollow):
+    if request.method == 'GET':
+        user_profile2 = Profile.objects.get(pk=to_unfollow)
+        unfollow_d = Follow.objects.filter(follower=request.user.profile, followed=user_profile2)
+        unfollow_d.delete()
+        return redirect('profile', user_profile2.user.username)
+
+
+def follow(request, to_follow):
+    if request.method == 'GET':
+        user_profile3 = Profile.objects.get(pk=to_follow)
+        follow_s = Follow(follower=request.user.profile, followed=user_profile3)
+        follow_s.save()
+        return redirect('profile', user_profile3.user.username)

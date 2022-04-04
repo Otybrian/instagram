@@ -1,5 +1,7 @@
+{% extends 'base.html' %}
 {% load bootstrap4 %}
  {% load static %}
+ {% load cloudinary %}
 <!DOCTYPE html>
 <html>
 
@@ -7,27 +9,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>New Image</title>
-  {{form.project}}
-
-{% block styles %} {% bootstrap_css %}
-{% endblock %}
-
 </head>
-
+<style>
+  .container{
+    padding-top: 150px;
+  }
+</style>
 <body>
-
-  <form  action="{%url 'newImage'%}" method="post" enctype="multipart/form-data">
+  {% block content %} 
+  <div class='container'>
+  <h4>New Image</h4>
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form%}
     <input type="submit" class="btn btn-success btn-lg" value="Post">
   </form>
-
+  {% endblock %}
    {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   {% bootstrap_javascript %} 
   {% endblock %}
-
+  </div>
 </body>
 
 </html>
