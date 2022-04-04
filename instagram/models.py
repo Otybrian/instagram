@@ -64,6 +64,9 @@ class Comment(models.Model):
     image = models.ForeignKey(Image, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(auto_now_add=True, null=True)
 
+    def __str__(self):
+        return self.comment
+
     def save_comment(self):
         self.save()
 

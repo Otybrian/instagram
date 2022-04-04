@@ -58,15 +58,13 @@
               <form action="{% url 'like-image' %}" method='POST'>
                 {% csrf_token %}
                 <input type="hidden" name="image_id" value="{{pic.id}}">
-                <a href="{% url 'like-image' %}"><img src='{% static "images/like.png" %}' style='height:15px; width: 15px;'></a>
-
-              </form>
               </div>
               <div class="col-md-4">
+                <a href="{% url 'like-image' %}"><img src='{% static "images/like.png" %}' style='height:15px; width: 15px;'></a>
               <strong>{{pic.like.all.count}} like(s)</strong>
-
+            </form>
               
-                <a class="ml-5" href="{% url 'comment' %}">View comments
+                <a class="ml-5" href="{% url 'comment' %}">Comments
                 </a>
               
             </div>
@@ -80,14 +78,8 @@
     </div>
     {% endfor %}
     <div class="col-md-4" style="margin-top: -1100px;">
-      {% for pic in photo %}
-      {% if profile %}
-<img src="{{profile.profile_pic.url}}" alt="" class="card-img-top profile" style='padding: 30px;'>
-      {% else %}
-      <img src='{% static "images/default.png" %}' alt="Avatar"
-      style='padding: 5px; margin-top: 5px; margin-left: 100px;' alt="Profile picture" height="50" width="50">
-      {% endif %}
-      <h5>{{pic.user}}</h5>
+      {%for comment in comments%}
+            <p>{{comment.comment}} on {{comments.pub_date}}</p>
       {% endfor %}
     </div>
   </div>
