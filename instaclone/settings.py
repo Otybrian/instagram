@@ -28,10 +28,16 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # )
 
 cloudinary.config( 
-  cloud_name = config('CLOUD_NAME'), 
-  api_key = config('API_KEY'), 
-  api_secret = config('API_SECRET') 
+  cloud_name ='insta-proj-django', 
+  api_key ='932143523858223',  
+  api_secret ='2KdKkJ2VspOn62tQblaiBE0ZEl8', 
 )
+
+# const signUpload = async () => {
+#   const timestamp = Math.round(newDate() /1000)
+#   const signature = await cloudinary.utils.api_sign_request(timestamp, process.env.CLOUDINARY_SECRET)
+#   return { timestamp, signature } 
+# }
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
