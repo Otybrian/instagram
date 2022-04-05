@@ -26,6 +26,9 @@
   <div class="row ">
     {% for pic in photo %}
     <div class="col-md-8">
+      <a href='{% url "homePage" %}'>Home</a>
+         <a href='{% url "profile" %}'>Profile</a>
+         <a href='{% url "newImage" %}'>Post</a>
       <div class='card'>
         {% if profile %}
         <img src="{{profile.profile_pic.url}}" alt="" class="card-img-top profile" style='padding: 30px;'>

@@ -10,7 +10,7 @@ urlpatterns = [
     path('newimage/', views.newImage, name='newImage'),
     path('image/',views.image,name ='image'),
     path('like/', views.likeImage, name='like-image'),
-    re_path('comment/', views.postComment, name='comment'),
+    path('comment/', views.postComment, name='comment'),
     path('unfollow/<to_unfollow>', views.unfollow, name='unfollow'),
     path('follow/<to_follow>', views.follow, name='follow')
    
