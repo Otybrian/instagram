@@ -15,6 +15,15 @@ def home(request):
     photo = Image.objects.all().order_by('-id')
     return render(request, 'home.html',{'photo':photo})
 
+
+def save_profile(request, sender, instance, created, **kwargs):
+    user = instance
+    profile = Profile.objects.create(user=request.user)
+    if created:
+        profile = Profile(user=user)
+        profile.save()
+
+
 @login_required(login_url='/accounts/login/')
 def userProfile(request):
     current_user = request.user
